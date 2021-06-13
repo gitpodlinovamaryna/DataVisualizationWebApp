@@ -15,7 +15,7 @@ chart_def = """
         type: 'spline'
     },
     title: {
-        text: 'Average fruit consumption during one week'
+        text: 'Average Rating Course by Month'
     },
     legend: {
         layout: 'vertical',
@@ -46,7 +46,7 @@ chart_def = """
     },
     yAxis: {
         title: {
-            text: 'Fruit units'
+            text: 'Rating'
         }
     },
     tooltip: {
