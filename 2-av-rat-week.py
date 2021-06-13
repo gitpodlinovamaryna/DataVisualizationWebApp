@@ -15,10 +15,10 @@ chart_def = """
         inverted: false
     },
     title: {
-        text: 'Average Rating by Date'
+        text: 'Average Rating by Week'
     },
     subtitle: {
-        text: 'According to the Standard Atmosphere Model'
+        text: 'According to the Standard Rating Model'
     },
     xAxis: {
         reversed: false,
