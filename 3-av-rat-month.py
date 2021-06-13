@@ -6,27 +6,29 @@ from pytz import utc
 import matplotlib.pyplot as plt
 
 data = pandas.read_csv("reviews.csv", parse_dates=['Timestamp'])
+data['Month']= data['Timestamp'].dt.strftime('%Y-%m')
+month_average = data.groupby(['Month']).mean()
 
 chart_def = """
  {
     chart: {
         type: 'spline',
-        inverted: true
+        inverted: false
     },
     title: {
-        text: 'Atmosphere Temperature by Altitude'
+        text: 'Average Rating by Month'
     },
     subtitle: {
-        text: 'According to the Standard Atmosphere Model'
+        text: 'According to the Standard Rating Model'
     },
     xAxis: {
         reversed: false,
         title: {
             enabled: true,
-            text: 'Altitude'
+            text: 'Month'
         },
         labels: {
-            format: '{value} km'
+            format: '{value} '
         },
         accessibility: {
             rangeDescription: 'Range: 0 to 80 km.'
@@ -36,10 +38,10 @@ chart_def = """
     },
     yAxis: {
         title: {
-            text: 'Temperature'
+            text: 'Average Rating'
         },
         labels: {
-            format: '{value}°'
+            format: '{value}'
         },
         accessibility: {
             rangeDescription: 'Range: -90°C to 20°C.'
@@ -51,7 +53,7 @@ chart_def = """
     },
     tooltip: {
         headerFormat: '<b>{series.name}</b><br/>',
-        pointFormat: '{point.x} km: {point.y}°C'
+        pointFormat: '{point.x} : {point.y}'
     },
     plotOptions: {
         spline: {
@@ -61,7 +63,7 @@ chart_def = """
         }
     },
     series: [{
-        name: 'Temperature',
+        name: 'Average Rating',
         data: [[0, 15], [10, -50], [20, -56.5], [30, -46.5], [40, -22.1],
             [50, -2.5], [60, -27.7], [70, -55.7], [80, -76.5]]
     }]
@@ -73,7 +75,8 @@ def app():
     p1 = jp.QDiv(a =wp, text = "These graphs represent course reviews analysis ")
     
     hc = jp.HighCharts(a = wp,options = chart_def)
-
+    hc.options.xAxis.categories = list(month_average.index)
+    hc.options.series[0].data = list(month_average['Rating'])
     return wp
 
 jp.justpy(app)
